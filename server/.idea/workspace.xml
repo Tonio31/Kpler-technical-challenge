@@ -1,8 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="4b7bb920-8f30-40cb-9d65-30bd1bc69722" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/.eslintrc.cjs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/.nvmrc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/.prettierrc.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/env.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/package-lock.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/postcss.config.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/public/favicon.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/src/App.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/src/assets/base.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/src/assets/base.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/src/assets/base.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/src/assets/main.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/src/assets/main.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/src/assets/main.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/src/assets/reedsy_logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/src/components/AppButton.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/src/components/AppInput.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/src/components/AppPaginator.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/src/components/AppSpinner.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/src/components/AppTextarea.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/src/components/BookComments.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/src/components/BookCover.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/src/components/BookList.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/src/components/BookListItem.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/src/components/HeaderNavItem.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/src/components/UpvoteButton.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/src/components/UpvotedSummary.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/src/components/__tests__/BookComments.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/src/components/icons/IconChevronLeft.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/src/components/icons/IconChevronRight.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/src/components/icons/IconClose.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/src/main.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/src/models/book.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/src/models/components.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/src/models/vessel.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/src/router/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/src/services/api.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/src/services/store.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/src/views/BookView.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/src/views/HomeView.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/tailwind.config.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/tsconfig.app.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/tsconfig.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/tsconfig.node.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/tsconfig.vitest.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/vite.config.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/vitest.config.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/flaskr/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/flaskr/db.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/flaskr/schema.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/flaskr/templates/auth/login.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/flaskr/templates/auth/register.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/flaskr/templates/base.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/flaskr/vessels.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../client/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -12,9 +76,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 7
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
   <component name="ProjectId" id="2foY35U7Qhva7w2RPPBgDSctSSr" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -24,9 +88,18 @@
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "/Users/tonio/DEV/perso/technicalTests/kpler/server"
+    "last_opened_file_path": "/Users/tonio/DEV/perso/technicalTests/kpler/server",
+    "settings.editor.selected.configurable": "Errors"
   }
 }]]></component>
+  <component name="PyConsoleOptionsProvider">
+    <option name="myPythonConsoleState">
+      <console-settings module-name="server" is-module-sdk="true">
+        <option name="myUseModuleSdk" value="true" />
+        <option name="myModuleName" value="server" />
+      </console-settings>
+    </option>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
