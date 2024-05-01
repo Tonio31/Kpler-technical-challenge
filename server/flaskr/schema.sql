@@ -1,0 +1,9 @@
+DROP TABLE IF EXISTS vessel_position;
+
+CREATE TABLE vessel_position (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  vessel_id INTEGER NOT NULL,
+  received_time_utc TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  latitude INTEGER NOT NULL,
+  longitude INTEGER NOT NULL
+);
