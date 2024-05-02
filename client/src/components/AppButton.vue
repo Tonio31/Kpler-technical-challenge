@@ -3,9 +3,11 @@ import { ButtonStyle } from '@/models/components';
 
 withDefaults(
   defineProps<{
+    disabled?: boolean;
     style?: ButtonStyle;
   }>(),
   {
+    disabled: false,
     style: ButtonStyle.yellowBg
   }
 );
@@ -20,7 +22,10 @@ withDefaults(
       'border-app-yellow-700 bg-app-yellow-700 text-black hover:bg-app-yellow-500':
         style === ButtonStyle.yellowBg,
       'border border-black bg-transparent text-black hover:bg-gray-200':
-        style === ButtonStyle.transparentBgBlackBorder
+        style === ButtonStyle.transparentBgBlackBorder,
+      'border border-red-600 bg-transparent font-bold text-red-600 hover:bg-red-200':
+        style === ButtonStyle.transparentBgRedBorder,
+      'pointer-events-none opacity-50': disabled
     }"
   >
     <slot></slot>

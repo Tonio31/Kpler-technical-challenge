@@ -3,7 +3,7 @@ import functools
 import datetime
 
 from flask import (
-    Blueprint, current_app, flash, g, redirect, render_template, request, session, url_for, jsonify
+    Blueprint, current_app, flash, g, redirect, render_template, request, session, url_for, jsonify, abort
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -13,7 +13,15 @@ from dateutil import parser
 bp = Blueprint('vessels', __name__, url_prefix='/vessels')
 
 
-def format_position(row):
+def is_iso_date(date_string):
+    try:
+        parser.parse(date_string)
+        return True
+    except ValueError:
+        return False
+
+
+def format_db_row_to_position(row):
     """Format a database row into a predefined dictionary format."""
     return {
         "id": row['id'],
@@ -24,74 +32,113 @@ def format_position(row):
     }
 
 
-def insert_single_position(payload):
+def format_position_to_ready_to_insert_db_row(payload):
     """Format a database row into a predefined dictionary format."""
-    vesselId = payload['vesselId']
-    createdAt = payload['createdAt']
-    longitude = payload['longitude']
+
+    vessel_id = payload['vesselId']
+    if not vessel_id:
+        abort(400, description="vesselId is required")
+
+    created_at = payload['createdAt']
+    if not is_iso_date(created_at):
+        abort(400, description=f"wrong format for createdAt: {created_at}")
+
     latitude = payload['latitude']
-
-    current_app.logger.info(
-        f"vesselId {vesselId} with longitude {longitude} and  latitude {latitude}  createdAt={createdAt}.")
-
-    received_time = parser.parse(createdAt)
-    received_time_utc = received_time.astimezone(datetime.timezone.utc)
-    received_time_utc_formatted_for_sql = received_time_utc.strftime('%Y-%m-%d %H:%M:%S')
-
-    error = ''
-    if not vesselId:
-        error += 'VesselId is required.'
-
-    if not createdAt:
-        error += ' createdAt is required.'
-
-    if not longitude:
-        error += ' longitude is required.'
-
     if not latitude:
-        error += ' latitude is required.'
+        abort(400, description="latitude is required")
+
+    longitude = payload['longitude']
+    if not longitude:
+        abort(400, description="longitude is required")
+
+    created_at_parsed = parser.parse(created_at)
+    created_at_utc = created_at_parsed.astimezone(datetime.timezone.utc)
+    created_at_utc_formatted_for_sql = created_at_utc.strftime('%Y-%m-%d %H:%M:%S')
+
+    return {
+        "vessel_id": payload['vesselId'],
+        "received_time_utc": created_at_utc_formatted_for_sql,
+        "latitude": latitude,
+        "longitude": longitude
+    }
+
+
+def retrieve_all_positions():
+    db = get_db()
+
+    rows = db.execute(
+        'SELECT * FROM vessel_position'
+    ).fetchall()
+
+    positions = [format_db_row_to_position(row) for row in rows]
+
+    return positions
+
+
+def delete_all_positions():
+    db = get_db()
+
+    db.execute(
+        'DELETE FROM vessel_position'
+    ).fetchall()
+
+    db.commit()
+
+    return
+
+
+def insert_single_position(payload):
+    row_dict = format_position_to_ready_to_insert_db_row(payload)
 
     db = get_db()
 
-    if error == '':
-        try:
-            cursor = db.execute(
-                "INSERT INTO vessel_position (vessel_id, received_time_utc, latitude, longitude) VALUES (?, ?, ?, ?)",
-                (vesselId, received_time_utc_formatted_for_sql, longitude, latitude),
-            )
+    try:
+        cursor = db.execute(
+            "INSERT INTO vessel_position (vessel_id, received_time_utc, latitude, longitude) VALUES (?, ?, ?, ?)",
+            (row_dict['vessel_id'], row_dict['received_time_utc'], row_dict['latitude'], row_dict['longitude']),
+        )
 
-            db.commit()
+        db.commit()
 
-            # Get the last inserted row ID
-            last_id = cursor.lastrowid
-            current_app.logger.info(f"last_id={last_id}   cursor={cursor}")
+        # Get the last inserted row ID
+        last_id = cursor.lastrowid
+        current_app.logger.info(f"last_id={last_id}   cursor={cursor}")
 
-            cursor = db.execute(
-                'SELECT * FROM vessel_position WHERE id = ?', (last_id,)
-            )
-            last_position_inserted = cursor.fetchone()
+        cursor = db.execute(
+            'SELECT * FROM vessel_position WHERE id = ?', (last_id,)
+        )
+        last_position_inserted = cursor.fetchone()
 
-            row_position_dict = {
-                "id": last_position_inserted['id'],
-                "vesselId": last_position_inserted['vessel_id'],
-                "createdAt": last_position_inserted['received_time_utc'].isoformat() + 'Z',
-                # Adding 'Z' to denote UTC time
-                "latitude": last_position_inserted['latitude'],
-                "longitude": last_position_inserted['longitude']
-            }
+        return format_db_row_to_position(last_position_inserted)
 
-            current_app.logger.info(f"last_position_inserted={jsonify(row_position_dict)}")
+    except db.IntegrityError:
+        abort(400, description=f"position createdAt{row_dict['received_time_utc']} "
+                               f"for vesselId {row_dict['vessel_id']} "
+                               f"with longitude {row_dict['longitude']} "
+                               f"and latitude {row_dict['latitude']} "
+                               f"is already registered.")
 
-            return row_position_dict
 
-        except db.IntegrityError:
-            error = f"position for vesselId {vesselId} with longitude {longitude} and latitude {latitude} is already registered."
+def insert_bulk_position(payload):
+    # Apply the formatting function to each position in the list
+    formatted_positions = [format_position_to_ready_to_insert_db_row(position) for position in payload]
 
-    flash(error)
+    db = get_db()
+
+    try:
+        cursor = db.executemany(
+            'INSERT INTO vessel_position (vessel_id, received_time_utc, latitude, longitude) VALUES (?, ?, ?, ?)',
+            [(pos['vessel_id'], pos['received_time_utc'], pos['latitude'], pos['longitude']) for pos in formatted_positions]
+        )
+
+        db.commit()
+
+    except db.IntegrityError:
+        abort(400, description=f"position already exists")
 
 
 @bp.route('/position', methods=['POST'])
-def position():
+def add_position():
     if request.method == 'POST':
         current_app.logger.debug('This is a DEBUG message')
         current_app.logger.info('This is an INFO message and its amazing')
@@ -104,81 +151,38 @@ def position():
 
         return jsonify(position_inserted)
 
-        # error = ''
-        # vesselId = payload['vesselId']
-        # createdAt = payload['createdAt']
-        # longitude = payload['longitude']
-        # latitude = payload['latitude']
-        #
-        # current_app.logger.info(f"vesselId {vesselId} with longitude {longitude} and  latitude {latitude}  createdAt={createdAt}.")
-        #
-        # received_time = parser.parse(createdAt)
-        # received_time_utc = received_time.astimezone(datetime.timezone.utc)
-        # received_time_utc_formatted_for_sql = received_time_utc.strftime('%Y-%m-%d %H:%M:%S')
-        #
-        # if not vesselId:
-        #     error += 'VesselId is required.'
-        #
-        # if not createdAt:
-        #     error += ' createdAt is required.'
-        #
-        # if not longitude:
-        #     error += ' longitude is required.'
-        #
-        # if not latitude:
-        #     error += ' latitude is required.'
-        #
-        # db = get_db()
-        #
-        # if error == '':
-        #     try:
-        #         cursor = db.execute(
-        #             "INSERT INTO vessel_position (vessel_id, received_time_utc, latitude, longitude) VALUES (?, ?, ?, ?)",
-        #             (vesselId, received_time_utc_formatted_for_sql, longitude, latitude),
-        #         )
-        #
-        #         db.commit()
-        #
-        #         # Get the last inserted row ID
-        #         last_id = cursor.lastrowid
-        #         current_app.logger.info(f"last_id={last_id}   cursor={cursor}")
-        #
-        #         cursor = db.execute(
-        #             'SELECT * FROM vessel_position WHERE id = ?', (last_id,)
-        #         )
-        #         last_position_inserted = cursor.fetchone()
-        #
-        #         row_dict = {
-        #             "id": last_position_inserted['id'],
-        #             "vesselId": last_position_inserted['vessel_id'],
-        #             "createdAt": last_position_inserted['received_time_utc'].isoformat() + 'Z',  # Adding 'Z' to denote UTC time
-        #             "latitude": last_position_inserted['latitude'],
-        #             "longitude": last_position_inserted['longitude']
-        #         }
-        #
-        #         current_app.logger.info(f"last_position_inserted={jsonify(row_dict)}")
-        #
-        #         return jsonify(row_dict)
-        #
-        #     except db.IntegrityError:
-        #         error = f"position for vesselId {vesselId} with longitude {longitude} and latitude {latitude} is already registered."
-        #     else:
-        #         return jsonify(status="ok")
-        #
-        #
-        # flash(error)
+
+@bp.route('/positions', methods=['POST'])
+def add_positions_bulk():
+    if request.method == 'POST':
+        current_app.logger.debug('Bulk insert debug message')
+        current_app.logger.info('Starting bulk insert of positions')
+
+        payload = request.get_json()
+        if not isinstance(payload, list):
+            current_app.logger.error('Expected a list of positions but got a different type')
+            abort(400, description=f"Wrong type received, expected an array")
+
+        insert_bulk_position(payload)
+
+        return jsonify(retrieve_all_positions())
+
+
+@bp.route('/positions', methods=['DELETE'])
+def delete_positions_bulk():
+    if request.method == 'DELETE':
+        current_app.logger.debug('Bulk Delete debug message')
+        current_app.logger.info('Starting bulk Delete of positions')
+
+        delete_all_positions()
+
+        return jsonify({})
+
 
 @bp.route('/positions', methods=['GET'])
-def positions():
-    db = get_db()
-
-    rows = db.execute(
-        'SELECT * FROM vessel_position'
-    ).fetchall()
-
-    positions = [format_position(row) for row in rows]
-
-    return jsonify(positions)
+def get_all_positions():
+    if request.method == 'GET':
+        return jsonify(retrieve_all_positions())
 
 
 @bp.route('/test', methods=['POST'])
