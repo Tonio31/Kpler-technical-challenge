@@ -1,11 +1,9 @@
-import { reactive, ref } from 'vue';
+import { ref } from 'vue';
 import type { Position } from '@/models/vessel';
 import type { Ref } from '@vue/reactivity';
 
 export interface VesselStore {
   positions: Position[];
-  // addPosition: (position: Position) => Position[];
-  // setPositions: (position: Position[]) => Position[];
 }
 
 export const vesselStore: Ref<VesselStore> = ref<VesselStore>({
@@ -18,6 +16,15 @@ export const addPosition = (position: Position): Ref<VesselStore> => {
 };
 
 export const setPositions = (positions: Position[]): Ref<VesselStore> => {
-  vesselStore.value.positions = positions;
+  console.log(
+    'TONIO 0 setPositions positions=',
+    positions,
+    '   vesselStore.value.positions=',
+    vesselStore.value.positions
+  );
+  vesselStore.value.positions.splice(0);
+  vesselStore.value.positions.push(...positions);
+  // vesselStore.value.positions = [...positions];
+  console.log('TONIO 10 setPositions  vesselStore.value.positions=', vesselStore.value.positions);
   return vesselStore;
 };
