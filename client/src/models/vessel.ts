@@ -1,5 +1,5 @@
 export interface Position {
-  id: number;
+  id?: number;
   vesselId: number;
   createdAt: string;
   longitude: number;
