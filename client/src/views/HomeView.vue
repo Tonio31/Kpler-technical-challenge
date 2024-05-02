@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import { api, savePosition, savePositionsInBulk } from '@/services/api';
 import AppButton from '@/components/AppButton.vue';
 import type { Position } from '@/models/vessel';
-import { addPosition, vesselStore } from '@/services/store';
+import { addPosition, setPositions, vesselStore } from '@/services/store';
 
 const positionJustAdded = ref<Position | null>(null);
 const helloWorld = ref<string | null>(null);
@@ -51,9 +51,10 @@ const addManyPositions = async () => {
     }
   ];
 
-  const response: Position[] = await savePositionsInBulk(positionsToAdd);
+  const allPositions: Position[] = await savePositionsInBulk(positionsToAdd);
+  setPositions(allPositions);
 
-  console.log('TONIO  onHelloRequested response=', response);
+  console.log('TONIO  onHelloRequested allPositions=', allPositions);
 };
 
 console.log('\x1b[44m TONIO ON INIT  \x1b');

@@ -1,7 +1,7 @@
 export interface Position {
-  id?: number;
-  vesselId: number;
   createdAt: string;
-  longitude: number;
+  id?: number;
   latitude: number;
+  longitude: number;
+  vesselId: number;
 }
