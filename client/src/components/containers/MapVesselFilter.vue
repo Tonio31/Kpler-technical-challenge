@@ -35,7 +35,9 @@ const onVesselClick = (vesselId: string): void => {
 onMounted(() => {
   const vesselIdsInUrl: LocationQueryValue | LocationQueryValue[] | null =
     route.query[VESSEL_ID_QUERY_PARAM_KEY];
-  if (typeof vesselIdsInUrl === 'string') {
+  console.log('TONIO  onMounted vesselIdsInUrl=', vesselIdsInUrl);
+  if (vesselIdsInUrl && typeof vesselIdsInUrl === 'string') {
+    console.log('TONIO  onMounted IT IS A STRING vesselIdsInUrl=', vesselIdsInUrl);
     vesselsIdSelected.value = vesselIdsInUrl.split(',');
     emit(`vesselSelectionChanged`, vesselsIdSelected.value);
   }
