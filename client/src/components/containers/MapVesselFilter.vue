@@ -8,7 +8,7 @@ const emit = defineEmits<{
   vesselSelectionChanged: [allVesselSelected: string[]];
 }>();
 
-const props = withDefaults(
+withDefaults(
   defineProps<{
     vesselsPath: VesselPath[];
     vesselIdToPreSelect: string[];
@@ -45,7 +45,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex items-center gap-4">
+  <div class="flex flex-wrap items-center gap-4">
     <p>Filter by Vessel ID:</p>
 
     <div

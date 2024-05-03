@@ -4,10 +4,12 @@ import { ButtonStyle } from '@/models/components';
 withDefaults(
   defineProps<{
     disabled?: boolean;
+    type?: 'submit' | 'reset' | 'button' | undefined;
     style?: ButtonStyle;
   }>(),
   {
     disabled: false,
+    type: 'button',
     style: ButtonStyle.yellowBg
   }
 );
@@ -16,6 +18,7 @@ withDefaults(
 <template>
   <button
     class="w-36 cursor-pointer rounded border-2 px-4 py-2"
+    :type="type"
     :class="{
       'border-app-yellow-900 bg-white text-app-yellow-900 hover:bg-gray-200':
         style === ButtonStyle.whiteBgYellowBorder,

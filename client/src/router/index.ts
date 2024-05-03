@@ -13,6 +13,11 @@ const router = createRouter({
       path: '/admin',
       name: 'admin',
       component: () => import('../views/AdminView.vue')
+    },
+    {
+      path: '/add-position',
+      name: 'add-position',
+      component: () => import('../views/AddPosition.vue')
     }
   ]
 });

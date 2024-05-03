@@ -6,13 +6,13 @@ const props = withDefaults(
   defineProps<{
     label: string;
     formSubmitted?: boolean;
-    required?: boolean;
     showCloseIcon?: boolean;
+    validateFn?: (value: string | undefined) => string;
   }>(),
   {
     formSubmitted: false,
     required: false,
-    showCloseIcon: true
+    showCloseIcon: false
   }
 );
 
@@ -22,20 +22,25 @@ const clearInput = () => {
   model.value = '';
 };
 
-const showInvalidStyle: ComputedRef<boolean> = computed<boolean>(() => {
-  return props.required && props.formSubmitted && !model.value;
+const errorMessage: ComputedRef<string> = computed<string>((): string => {
+  if (typeof props.validateFn === 'function') {
+    const errorFromValidateFn: string = props.validateFn(model.value);
+    return props.formSubmitted ? errorFromValidateFn : '';
+  }
+
+  return '';
 });
 </script>
 
 <template>
   <div class="flex flex-col">
-    <label for="appInput" class="text-sm" :class="{ 'text-red-600': showInvalidStyle }">
+    <label for="appInput" class="text-sm" :class="{ 'text-red-600': errorMessage }">
       {{ label }}
     </label>
     <div class="relative w-full">
       <input
         class="w-full rounded border-2 border-app-yellow-900 p-1 pr-8"
-        :class="{ 'border-red-600': showInvalidStyle }"
+        :class="{ 'border-red-600 text-red-600': errorMessage }"
         id="appInput"
         type="text"
         v-model="model"
@@ -46,6 +51,6 @@ const showInvalidStyle: ComputedRef<boolean> = computed<boolean>(() => {
         @click="clearInput()"
       />
     </div>
-    <p class="text-sm text-red-600" v-if="showInvalidStyle">This is a required field</p>
+    <p class="text-sm text-red-600" v-if="errorMessage">{{ errorMessage }}</p>
   </div>
 </template>

@@ -257,6 +257,8 @@ const saveCsvInServer = async (): Promise<void> => {
       <AppSpinner />
     </div>
 
+    <p v-if="errorMessage" class="font-bold text-red-600">{{ errorMessage }}</p>
+
     <div
       v-if="positionsToImport"
       class="flex flex-col gap-4"

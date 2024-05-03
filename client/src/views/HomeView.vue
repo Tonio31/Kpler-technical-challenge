@@ -3,11 +3,23 @@ import { vesselStore } from '@/services/store';
 import { ButtonStyle } from '@/models/components';
 import WorldMap from '@/components/containers/WorldMap.vue';
 import AppButton from '@/components/atomic/AppButton.vue';
+import { type Router, useRouter } from 'vue-router';
+
+const router: Router = useRouter();
+
+const goToAddPositionView = () => {
+  router.push('/add-position');
+};
 </script>
 
 <template>
   <main class="flex h-full flex-col gap-10">
-    <h1 class="text-center text-app-yellow-700">Vessels positions</h1>
+    <div class="flex justify-between gap-4">
+      <h1 class="text-center text-app-yellow-700">Vessels positions</h1>
+      <AppButton :style="ButtonStyle.yellowBg" @click="goToAddPositionView">
+        Add position
+      </AppButton>
+    </div>
     <div
       class="flex flex-col items-center justify-center gap-2"
       v-if="vesselStore.positions.length === 0"
