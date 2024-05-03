@@ -1,4 +1,5 @@
 *.pyc
+.venv
 __pycache__/
 
 instance/
@@ -10,3 +11,5 @@ htmlcov/
 dist/
 build/
 *.egg-info/
+
+app.log*

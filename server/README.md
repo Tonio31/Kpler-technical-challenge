@@ -6,14 +6,18 @@
 
 ```. .venv/bin/activate```
 
-2. put all requirements into requirement.txt
+2. Install requirements
+
+```pip3 install -r requirements.txt```
+
+3. put all requirements into requirement.txt
 
 ```pip3 freeze > requirements.txt```
 
-2. Running the server
+4. Running the server
 
 ```python3 -m flask --app flaskr run --debug```
 
-3. Initialize the database
+5. Initialize the database
 
 ```python3 -m flask --app flaskr init-db```
