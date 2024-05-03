@@ -1,8 +1,8 @@
 # Server for Kpler technical challenge
 
-## Instruction during tutorial
+## Useful commands
 
-1. When using a new terminal start by activating virtual environment
+1. Activate virtual environment
 
 ```. .venv/bin/activate```
 
@@ -21,3 +21,8 @@
 5. Initialize the database
 
 ```python3 -m flask --app flaskr init-db```
+
+6. Leave the virtual environment
+
+```deactivate```
+

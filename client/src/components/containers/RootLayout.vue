@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router';
-import HeaderNavItem from '@/components/HeaderNavItem.vue';
+import HeaderNavItem from '@/components/atomic/HeaderNavItem.vue';
 import { setPositions, vesselStore } from '@/services/store';
 import type { Position } from '@/models/vessel';
 import { retrieveAllPositions } from '@/services/api';

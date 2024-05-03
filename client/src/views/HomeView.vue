@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import AppButton from '@/components/AppButton.vue';
 import { vesselStore } from '@/services/store';
 import { ButtonStyle } from '@/models/components';
 import WorldMap from '@/components/containers/WorldMap.vue';
+import AppButton from '@/components/atomic/AppButton.vue';
 </script>
 
 <template>

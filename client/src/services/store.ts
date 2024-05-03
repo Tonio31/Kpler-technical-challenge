@@ -24,7 +24,6 @@ export const setPositions = (positions: Position[]): Ref<VesselStore> => {
   );
   vesselStore.value.positions.splice(0);
   vesselStore.value.positions.push(...positions);
-  // vesselStore.value.positions = [...positions];
   console.log('TONIO 10 setPositions  vesselStore.value.positions=', vesselStore.value.positions);
   return vesselStore;
 };

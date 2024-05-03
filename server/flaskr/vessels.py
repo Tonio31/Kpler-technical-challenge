@@ -3,9 +3,9 @@ import functools
 import datetime
 
 from flask import (
-    Blueprint, current_app, flash, g, redirect, render_template, request, session, url_for, jsonify, abort
+    Blueprint, current_app, request, jsonify, abort
 )
-from werkzeug.security import check_password_hash, generate_password_hash
+
 
 from flaskr.db import get_db
 from dateutil import parser
@@ -22,7 +22,6 @@ def is_iso_date(date_string):
 
 
 def format_db_row_to_position(row):
-    """Format a database row into a predefined dictionary format."""
     return {
         "id": row['id'],
         "vesselId": row['vessel_id'],
@@ -33,8 +32,6 @@ def format_db_row_to_position(row):
 
 
 def format_position_to_ready_to_insert_db_row(payload):
-    """Format a database row into a predefined dictionary format."""
-
     vessel_id = payload['vesselId']
     if not vessel_id:
         abort(400, description="vesselId is required")
@@ -140,23 +137,16 @@ def insert_bulk_position(payload):
 @bp.route('/position', methods=['POST'])
 def add_position():
     if request.method == 'POST':
-        current_app.logger.debug('This is a DEBUG message')
-        current_app.logger.info('This is an INFO message and its amazing')
-        current_app.logger.warning('This is a WARNING message')
-        current_app.logger.error('This is an ERROR message')
-        current_app.logger.critical('This is a CRITICAL message FUCK')
-
+        current_app.logger.debug('Route /position - POST - START')
         payload = request.get_json()
         position_inserted = insert_single_position(payload)
-
         return jsonify(position_inserted)
 
 
 @bp.route('/positions', methods=['POST'])
 def add_positions_bulk():
     if request.method == 'POST':
-        current_app.logger.debug('Bulk insert debug message')
-        current_app.logger.info('Starting bulk insert of positions')
+        current_app.logger.debug('Route /positions - POST - START')
 
         payload = request.get_json()
         if not isinstance(payload, list):
@@ -171,23 +161,14 @@ def add_positions_bulk():
 @bp.route('/positions', methods=['DELETE'])
 def delete_positions_bulk():
     if request.method == 'DELETE':
-        current_app.logger.debug('Bulk Delete debug message')
-        current_app.logger.info('Starting bulk Delete of positions')
-
+        current_app.logger.debug('Route /positions - DELETE - START')
         delete_all_positions()
-
         return jsonify({})
 
 
 @bp.route('/positions', methods=['GET'])
 def get_all_positions():
     if request.method == 'GET':
+        current_app.logger.debug('Route /positions - GET - START')
         return jsonify(retrieve_all_positions())
 
-
-@bp.route('/test', methods=['POST'])
-def logout():
-    payload = request.get_json()
-    # username = payload['bob']
-    current_app.logger.debug('This is a DEBUG payload=%s', payload)
-    return jsonify(test="HURGGGGGHHHHH")
