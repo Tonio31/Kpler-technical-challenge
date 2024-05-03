@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { type RouteLocationNormalizedLoaded, useRoute } from 'vue-router';
 import { ref, watch } from 'vue';
-import AppButton from '@/components/AppButton.vue';
+import AppButton from '@/components/atomic/AppButton.vue';
 import { ButtonStyle } from '@/models/components';
 
 defineProps<{

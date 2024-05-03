@@ -53,7 +53,6 @@ export const savePositionsInBulk = async (positions: Position[]): Promise<Positi
 };
 
 export const retrieveAllPositions = async (): Promise<Position[]> => {
-  await wait(2000);
   const response: Position[] = await api<Position[]>('/vessels/positions', {
     method: 'GET'
   });

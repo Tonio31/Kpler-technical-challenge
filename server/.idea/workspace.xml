@@ -5,20 +5,32 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4b7bb920-8f30-40cb-9d65-30bd1bc69722" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../client/.vite/deps/_metadata.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../client/.vite/deps/chunk-5A4OAFVX.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../client/.vite/deps/chunk-5A4OAFVX.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../client/.vite/deps/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../client/.vite/deps/vue-router.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../client/.vite/deps/vue-router.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../client/.vite/deps/vue.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../client/.vite/deps/vue.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/server.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../client/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/assets/reedsy_logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/AppButton.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/atomic/AppButton.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/AppInput.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/atomic/AppInput.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/AppPaginator.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/atomic/AppPaginator.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/AppTextarea.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/atomic/AppTextarea.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/BookComments.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/BookCover.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/BookList.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/BookListItem.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/HeaderNavItem.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/atomic/HeaderNavItem.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/UpvoteButton.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/UpvotedSummary.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/__tests__/BookComments.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/atomic/CsvImport.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/atomic/CsvImport.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/containers/RootLayout.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/containers/RootLayout.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/models/book.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/services/api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/services/api.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/services/store.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/services/store.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/views/AdminView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/views/AdminView.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/views/HomeView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/views/HomeView.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/flaskr/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/flaskr/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/flaskr/vessels.py" beforeDir="false" afterPath="$PROJECT_DIR$/flaskr/vessels.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,7 +51,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "feat/clean-unused-file-from-original-project",
     "last_opened_file_path": "/Users/tonio/DEV/perso/technicalTests/kpler/server",
     "settings.editor.selected.configurable": "Errors"
   }

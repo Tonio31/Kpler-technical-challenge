@@ -2,7 +2,8 @@
 import { ref, watch } from 'vue';
 import { setPositions, vesselStore } from '@/services/store';
 import type { IsItWaterApiResponse, LatLng, Position } from '@/models/vessel';
-import AppButton from '@/components/AppButton.vue';
+import AppButton from '@/components/atomic/AppButton.vue';
+
 import { ButtonStyle } from '@/models/components';
 import { api, deleteAllPositions, savePositionsInBulk } from '@/services/api';
 import CsvImport from '@/components/atomic/CsvImport.vue';

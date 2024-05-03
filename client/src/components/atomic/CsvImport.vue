@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ButtonStyle } from '@/models/components';
-import AppButton from '@/components/AppButton.vue';
+import AppButton from '@/components/atomic/AppButton.vue';
 import Papa from 'papaparse';
 
 import { ref } from 'vue';
