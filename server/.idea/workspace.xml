@@ -5,14 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4b7bb920-8f30-40cb-9d65-30bd1bc69722" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../client/src/components/atomic/CsvImport.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../client/src/services/helpers.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/env.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/env.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../client/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../client/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/models/vessel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/models/vessel.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/views/AdminView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/views/AdminView.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/.vite/deps/_metadata.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/.vite/deps/chunk-5A4OAFVX.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/.vite/deps/chunk-5A4OAFVX.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/.vite/deps/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/.vite/deps/vue-router.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/.vite/deps/vue-router.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/.vite/deps/vue.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/.vite/deps/vue.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/server.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,7 +39,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "feat/csv-import",
+    "git-widget-placeholder": "main",
     "last_opened_file_path": "/Users/tonio/DEV/perso/technicalTests/kpler/server",
     "settings.editor.selected.configurable": "Errors"
   }
