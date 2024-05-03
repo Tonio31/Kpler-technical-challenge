@@ -6,25 +6,24 @@ export const wait = (ms: number): Promise<void> => {
   return new Promise((resolve) => setTimeout(resolve, ms));
 };
 
-export const api = async <T>(url: string, params: RequestInit = {}): Promise<T> => {
-  // params = Object.assign(
-  //   {
-  //     mode: 'cors',
-  //     cache: 'no-cache'
-  //   },
-  //   params
-  // );
-
-  params.headers = Object.assign(
-    {
-      'Content-Type': 'application/json'
-    },
-    params.headers
-  );
+export const api = async <T>(
+  url: string,
+  params: RequestInit = {},
+  includeContentTypeJson: boolean = true
+): Promise<T> => {
+  if (includeContentTypeJson) {
+    params.headers = Object.assign(
+      {
+        'Content-Type': 'application/json'
+      },
+      params.headers
+    );
+  }
 
   console.log('TONIO params api params=', params);
 
-  const response: Response = await fetch(BASE_URL + url, params);
+  const fullUrl: string = url.startsWith('http') ? url : BASE_URL + url;
+  const response: Response = await fetch(fullUrl, params);
   const json: any = (await response.json()) || {};
   console.log('TONIO  api response=', response);
   if (!response.ok) {
