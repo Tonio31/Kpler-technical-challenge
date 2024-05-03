@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { setPositions, vesselStore } from '@/services/store';
-import type { Position } from '@/models/vessel';
+import type { IsItWaterApiResponse, LatLng, Position } from '@/models/vessel';
 import AppButton from '@/components/AppButton.vue';
 import { ButtonStyle } from '@/models/components';
-import { deleteAllPositions, savePositionsInBulk } from '@/services/api';
+import { api, deleteAllPositions, savePositionsInBulk } from '@/services/api';
 import CsvImport from '@/components/atomic/CsvImport.vue';
-import { isNumeric } from '@/services/helpers';
+import { isNumeric, isValidLatitude, isValidLongitude } from '@/services/helpers';
 import AppSpinner from '@/components/atomic/AppSpinner.vue';
 
 interface CsvRowVessel {
@@ -84,30 +84,68 @@ const clearAllPositions = async () => {
   isLoading.value = false;
 };
 
-const convertCvsDataIntoPositions = (csvRowData: any[]): ConvertPositionsReturnValue => {
+// Note: this is theoretically working but without paying the most expensive plan, It won't work for the high volume we have
+// There are ways to do that ourselves instead of relaying on an external API, in a real application I would invest the time to do this
+const isLatLngOnSea = (latLng: LatLng, disableForNow: boolean = true): Promise<boolean> => {
+  if (disableForNow) {
+    return Promise.resolve(true);
+  }
+  const urlIsItWaterApi: string = `https://isitwater-com.p.rapidapi.com/?latitude=${latLng.lat}&longitude=${latLng.lng}`;
+  const options = {
+    method: 'GET',
+    headers: {
+      'X-RapidAPI-Key': import.meta.env.VITE_IS_IT_WATER_API_KEY,
+      'X-RapidAPI-Host': 'isitwater-com.p.rapidapi.com'
+    }
+  };
+
+  return new Promise<boolean>((resolve) => {
+    api<IsItWaterApiResponse>(urlIsItWaterApi, options)
+      .then((results: IsItWaterApiResponse) => {
+        resolve(results.water);
+      })
+      .catch((error) => {
+        resolve(false);
+      });
+  });
+};
+
+const convertCvsDataIntoPositions = async (
+  csvRowData: any[]
+): Promise<ConvertPositionsReturnValue> => {
   const regExpDate: RegExp = /\d{4}-[01]\d-[0-3]\d\s[0-2]\d:[0-5]\d:[0-5]\d\.\d+/;
 
   const parsingErrors: string[] = [];
   const positionsFormatted: Position[] = [];
 
-  csvRowData.forEach((row: any, index: number) => {
+  for (const [index, row] of csvRowData.entries()) {
     if (isCsvRowVessel(row)) {
-      const latitudeAsNumber: number = +row.latitude;
-      const longitudeAsNumber: number = +row.longitude;
       const vesselIdAsNumber: number = +row.vessel_id;
 
+      const isLatitudeCorrect: boolean = isValidLatitude(row.latitude);
+      const isLongitudeCorrect: boolean = isValidLongitude(row.longitude);
       const isFormatDateCorrect: boolean = regExpDate.test(row.received_time_utc);
+      const isCoordinatesOnSea: boolean =
+        isLatitudeCorrect && isLongitudeCorrect
+          ? await isLatLngOnSea({
+              lat: +row.latitude,
+              lng: +row.longitude
+            })
+          : false;
+
+      // There are more validations we could do here like sorting the positions per vessel and checking that the distance
+      // between 2 consecutive points is not unrealistic
 
       if (
-        isNumeric(latitudeAsNumber) &&
-        isNumeric(longitudeAsNumber) &&
+        isLatitudeCorrect &&
+        isLongitudeCorrect &&
         isNumeric(vesselIdAsNumber) &&
         isFormatDateCorrect
       ) {
         positionsFormatted.push({
           createdAt: new Date(row.received_time_utc).toISOString(),
-          latitude: latitudeAsNumber,
-          longitude: longitudeAsNumber,
+          latitude: +row.latitude,
+          longitude: +row.longitude,
           vesselId: vesselIdAsNumber
         });
       } else {
@@ -115,11 +153,14 @@ const convertCvsDataIntoPositions = (csvRowData: any[]): ConvertPositionsReturnV
         if (!isNumeric(vesselIdAsNumber)) {
           errorMessage += ` Invalid vessel_id: "${row.vessel_id}".`;
         }
-        if (!isNumeric(latitudeAsNumber)) {
-          errorMessage += ` Invalid latitude: "${row.latitude}".`;
+        if (!isLatitudeCorrect) {
+          errorMessage += ` Invalid latitude: "${row.latitude}" (should be a number between -90 & 90).`;
         }
-        if (!isNumeric(longitudeAsNumber)) {
-          errorMessage += ` Invalid longitude: "${row.longitude}".`;
+        if (!isLongitudeCorrect) {
+          errorMessage += ` Invalid longitude: "${row.longitude}" (should be a number between -180 & 180).`;
+        }
+        if (!isCoordinatesOnSea) {
+          errorMessage += ` Invalid Coordinates: "${row.latitude}, ${row.longitude}" is not located on a sea or ocean on Earth.`;
         }
         if (!isFormatDateCorrect) {
           errorMessage += ` Invalid date format: "${row.received_time_utc}" (should be like 2017-12-14 00:52:52.000000).`;
@@ -131,7 +172,7 @@ const convertCvsDataIntoPositions = (csvRowData: any[]): ConvertPositionsReturnV
         `Unable to parse row ${index + 2}, check that headers are correct. content: ${JSON.stringify(row)}`
       );
     }
-  });
+  }
 
   return {
     positions: positionsFormatted,
@@ -142,8 +183,8 @@ const convertCvsDataIntoPositions = (csvRowData: any[]): ConvertPositionsReturnV
 const onFileParsed = (content: any[]): void => {
   isLoading.value = true;
   console.log('\x1b[41m TONIO onFileParsed  content=', content, '\x1b');
-  setTimeout(() => {
-    const results: ConvertPositionsReturnValue = convertCvsDataIntoPositions(content);
+  setTimeout(async () => {
+    const results: ConvertPositionsReturnValue = await convertCvsDataIntoPositions(content);
     positionsToImport.value = results.positions;
     errorsParsingCSV.value = results.errors;
 
