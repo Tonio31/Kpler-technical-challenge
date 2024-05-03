@@ -39,7 +39,7 @@ export const savePosition = async (position: Position): Promise<Position> => {
     method: 'POST',
     body: JSON.stringify(position)
   });
-  console.log('\x1b[44m TONIO  addPosition response=', response, '\x1b');
+  console.log('\x1b[44m TONIO  savePosition response=', response, '\x1b');
   return response;
 };
 
@@ -48,7 +48,7 @@ export const savePositionsInBulk = async (positions: Position[]): Promise<Positi
     method: 'POST',
     body: JSON.stringify(positions)
   });
-  console.log('\x1b[44m TONIO  addPositions response=', response, '\x1b');
+  console.log('\x1b[44m TONIO  savePositionsInBulk response=', response, '\x1b');
   return response;
 };
 
@@ -56,7 +56,7 @@ export const retrieveAllPositions = async (): Promise<Position[]> => {
   const response: Position[] = await api<Position[]>('/vessels/positions', {
     method: 'GET'
   });
-  console.log('\x1b[44m TONIO  saveAllPositions response=', response, '\x1b');
+  console.log('\x1b[44m TONIO  retrieveAllPositions response=', response, '\x1b');
   return response;
 };
 
