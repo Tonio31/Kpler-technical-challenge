@@ -81,6 +81,13 @@ const filterVesselPath = (
   vesselPathToFilter: VesselPath[],
   vesselIdToInclude: string[]
 ): VesselPath[] => {
+  console.log(
+    '\x1b[41m TONIO  filterVesselPath vesselPathToFilter=',
+    vesselPathToFilter,
+    '  vesselIdToInclude=',
+    vesselIdToInclude,
+    '\x1b'
+  );
   return vesselPathToFilter.filter((vesselPath: VesselPath): boolean => {
     if (vesselIdToInclude.length === 0) {
       return true;
@@ -135,6 +142,7 @@ watch(
       '  newVesselPaths=',
       newVesselPaths
     );
+    //TODO TONIO BUG WHEN LOADING SCREEN newVesselIdSelected=['']
     vesselPathsFiltered.value = filterVesselPath(newVesselPaths, newVesselIdSelected);
 
     console.log('TONIO   WATCH vesselPathsFiltered.value=', vesselPathsFiltered.value);
