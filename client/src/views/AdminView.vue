@@ -126,13 +126,10 @@ const convertCvsDataIntoPositions = async (
       const isLatitudeCorrect: boolean = isValidLatitude(row.latitude);
       const isLongitudeCorrect: boolean = isValidLongitude(row.longitude);
       const isFormatDateCorrect: boolean = regExpDate.test(row.received_time_utc);
-      const isCoordinatesOnSea: boolean =
-        isLatitudeCorrect && isLongitudeCorrect
-          ? await isLatLngOnSea({
-              lat: +row.latitude,
-              lng: +row.longitude
-            })
-          : false;
+      const isCoordinatesOnSea: boolean = await isLatLngOnSea({
+        lat: +row.latitude,
+        lng: +row.longitude
+      });
 
       // There are more validations we could do here like sorting the positions per vessel and checking that the distance
       // between 2 consecutive points is not unrealistic
@@ -196,18 +193,20 @@ const onFileParsed = (content: any[]): void => {
 
 const saveCsvInServer = async (): Promise<void> => {
   console.log('\x1b[41m TONIO saveCsvInServer  positions=', positionsToImport.value, '\x1b');
-  if (positionsToImport.value) {
-    isLoading.value = true;
-    const response: Position[] = await savePositionsInBulk(positionsToImport.value);
-    setPositions(response);
-    positionsToImport.value = null;
+  isLoading.value = true;
+  setTimeout(async () => {
+    if (positionsToImport.value) {
+      const response: Position[] = await savePositionsInBulk(positionsToImport.value);
+      setPositions(response);
+      positionsToImport.value = null;
+    } else {
+      console.error(`falsy value for positionsToImport.value:`, positionsToImport.value);
+      throw new Error(
+        `positionsToImport.value should not be null within saveCsvInServer - investigate bug`
+      );
+    }
     isLoading.value = false;
-  } else {
-    console.error(`falsy value for positionsToImport.value:`, positionsToImport.value);
-    throw new Error(
-      `positionsToImport.value should not be null within saveCsvInServer - investigate bug`
-    );
-  }
+  }, 100);
 };
 </script>
 
@@ -267,33 +266,39 @@ const saveCsvInServer = async (): Promise<void> => {
         <h4>Errors while parsing the CSV, some rows will be ignored</h4>
         <p v-for="error in errorsParsingCSV">{{ error }}</p>
       </div>
-      <h3>Data to import</h3>
-      <div class="flex justify-between gap-10">
-        <p class="font-bold">Below is an overview of all the data you're going to import</p>
-        <AppButton :style="ButtonStyle.yellowBg" @click="saveCsvInServer">Import ALL</AppButton>
-      </div>
+      <template v-if="positionsToImport.length > 0">
+        <h3>Data to import</h3>
+        <div class="flex justify-between gap-10">
+          <p class="font-bold">Below is an overview of all the data you're going to import</p>
+          <AppButton :style="ButtonStyle.yellowBg" @click="saveCsvInServer" :disabled="isLoading">
+            Import ALL
+          </AppButton>
+        </div>
 
-      <div>
-        <div class="grid grid-cols-[1fr_1fr_2fr_1fr_1fr] gap-5 border border-b-0 border-black px-2">
-          <p>Index</p>
-          <p>Vessel ID</p>
-          <p>Date</p>
-          <p>latitude</p>
-          <p>longitude</p>
+        <div>
+          <div
+            class="grid grid-cols-[1fr_1fr_2fr_1fr_1fr] gap-5 border border-b-0 border-black px-2"
+          >
+            <p>Index</p>
+            <p>Vessel ID</p>
+            <p>Date</p>
+            <p>latitude</p>
+            <p>longitude</p>
+          </div>
+          <div
+            class="grid grid-cols-[1fr_1fr_2fr_1fr_1fr] gap-5 border border-b-0 border-black px-2"
+            v-for="(position, index) in positionsToImport"
+            :key="index"
+            :class="{ 'bg-blue-100': index % 2 === 0, 'bg-yellow-100': index % 2 === 1 }"
+          >
+            <p>{{ index }}</p>
+            <p>{{ position.vesselId }}</p>
+            <p>{{ position.createdAt }}</p>
+            <p>{{ position.latitude }}</p>
+            <p>{{ position.longitude }}</p>
+          </div>
         </div>
-        <div
-          class="grid grid-cols-[1fr_1fr_2fr_1fr_1fr] gap-5 border border-b-0 border-black px-2"
-          v-for="(position, index) in positionsToImport"
-          :key="index"
-          :class="{ 'bg-blue-100': index % 2 === 0, 'bg-yellow-100': index % 2 === 1 }"
-        >
-          <p>{{ index }}</p>
-          <p>{{ position.vesselId }}</p>
-          <p>{{ position.createdAt }}</p>
-          <p>{{ position.latitude }}</p>
-          <p>{{ position.longitude }}</p>
-        </div>
-      </div>
+      </template>
     </div>
   </div>
 </template>

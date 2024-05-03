@@ -48,6 +48,7 @@ const handleFileUpload = (event: Event) => {
   if (target.files) {
     const file: File = target.files[0];
     parseFile(file);
+    target.value = '';
   } else {
     throw new Error(`target.files should always be defined when calling handleFileUpload()`);
   }
