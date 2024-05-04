@@ -5,16 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4b7bb920-8f30-40cb-9d65-30bd1bc69722" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../client/src/views/AddPosition.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/src/components/icons/IconPause.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/src/components/icons/IconPlay.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../client/src/services/vesselsHelper.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/atomic/AppButton.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/atomic/AppButton.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/atomic/AppInput.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/atomic/AppInput.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/atomic/HeaderNavItem.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/atomic/HeaderNavItem.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/containers/MapVesselFilter.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/containers/MapVesselFilter.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/router/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/router/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/services/api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/services/api.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/views/AdminView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/views/AdminView.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/views/HomeView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/views/HomeView.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/containers/WorldMap.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/containers/WorldMap.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/models/vessel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/models/vessel.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/services/helpers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/services/helpers.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,14 +31,14 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "fix/bug-loading-admin",
-    "last_opened_file_path": "/Users/tonio/DEV/perso/technicalTests/kpler/server",
-    "settings.editor.selected.configurable": "Errors"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feat/play&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/tonio/DEV/perso/technicalTests/kpler/server&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;Errors&quot;
   }
-}]]></component>
+}</component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
       <console-settings module-name="server" is-module-sdk="true">

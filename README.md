@@ -20,6 +20,8 @@ Have python3 and pip3 installed on your machine
 
  - Create a virtual python environment
 
+```virtualenv -p python3 .venv```
+
 ```. .venv/bin/activate```
 
  - Install dependencies
@@ -77,7 +79,7 @@ Error Management should be better: I raise error using `abort` directly, I shoul
 Logs: I put DEBUG logs everywhere but in a real application, we would differentiate "normal" logs from "Debug" logs
 
 #### Unit test
-I did not do any unit test for lack of time but there should be
+I did not do any unit test for lack of time but there should be some
 
 ### Client
 
@@ -89,13 +91,11 @@ I did the most basic validation possible but there are many more validations we 
 
 These will apply to both the CSV import and the add Single position
 
-#### Slider to see the ships moving
-I wanted to submit this test before the end of the week but I would have loved to have a "play" button on the map that will filter the "path" by time
-
-This way we would have seen the vessel "move" on the map, it would have been cool.
+#### Play Button
+This is just a proof of concept, it will not work with huge amount of data and some performance optimisation would be needed to really use it. And aas it stands, it doesn't offer enough information to the user like which time it actually filters
 
 #### Unit test
-I did not do any unit test for lack of time but there should be
+I did not do any unit test for lack of time but there should be some
 
 #### Storybook
 It will be nice to have storybook to give our designers an overview of all our components

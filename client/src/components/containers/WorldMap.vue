@@ -1,11 +1,26 @@
 <script setup lang="ts">
 import { GoogleMap, Polyline } from 'vue3-google-map';
-import type { LatLng, Position, PositionsPerVessel, VesselPath } from '@/models/vessel';
+import type {
+  LatLng,
+  Position,
+  PositionAndTimeFilter,
+  TimeFilter,
+  VesselPath
+} from '@/models/vessel';
 import { ref, watch } from 'vue';
-import { getHtmlColorCodeForNumber, sortPositionsByTimestamp } from '@/services/helpers';
 import AppSpinner from '@/components/atomic/AppSpinner.vue';
 import MapVesselFilter from '@/components/containers/MapVesselFilter.vue';
 import { type Router, useRouter } from 'vue-router';
+import { ButtonStyle } from '@/models/components';
+import AppButton from '@/components/atomic/AppButton.vue';
+import { onUnmounted } from '@vue/runtime-core';
+import {
+  computePositionsPerVesselAndTimeFilters,
+  computeVesselPath,
+  filterVesselPath
+} from '@/services/vesselsHelper';
+import IconPlay from '@/components/icons/IconPlay.vue';
+import IconPause from '@/components/icons/IconPause.vue';
 
 const props = defineProps<{
   positions: Position[];
@@ -20,91 +35,38 @@ const center = ref<LatLng>({ lat: 0, lng: 0 });
 const isLoading = ref<boolean>(false);
 const allVesselPaths = ref<VesselPath[]>([]);
 const vesselPathsFiltered = ref<VesselPath[]>([]);
+const timeFilter = ref<TimeFilter | null>(null);
+const allPossibleTimeFilters = ref<TimeFilter[]>([]);
+const historyTimeoutIds = ref<ReturnType<typeof setTimeout>[]>([]);
 
 const vesselIdSelected = ref<string[]>([]);
 
-const getPositionsPerVessel = (positions: Position[]): PositionsPerVessel => {
-  const positionsPerVessel: PositionsPerVessel = {};
-
-  const allPositionsSorted: Position[] = sortPositionsByTimestamp(positions);
-
-  console.log('TONIO  computePositions allPositionsSorted=', allPositionsSorted);
-  allPositionsSorted.forEach((position: Position) => {
-    if (!positionsPerVessel[position.vesselId]) {
-      positionsPerVessel[position.vesselId] = [];
-    }
-
-    positionsPerVessel[position.vesselId].push(position);
+const clearAllHistoryTimeout = () => {
+  historyTimeoutIds.value.forEach((timeoutId: ReturnType<typeof setTimeout>) => {
+    clearTimeout(timeoutId);
   });
-
-  console.log('TONIO  computePositions positionsPerVessel=', positionsPerVessel);
-
-  return positionsPerVessel;
+  historyTimeoutIds.value = [];
 };
 
-const computeVesselPath = (vesselsPositions: PositionsPerVessel): VesselPath[] => {
-  const lineSymbol = {
-    path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
-  };
+const playPauseHistory = () => {
+  if (historyTimeoutIds.value.length > 0) {
+    clearAllHistoryTimeout();
+  } else {
+    allPossibleTimeFilters.value.forEach((time: TimeFilter, index: number) => {
+      historyTimeoutIds.value.push(
+        setTimeout(() => {
+          timeFilter.value = time;
 
-  const vesselPaths: VesselPath[] = [];
-  let index: number = 0;
-  Object.entries(vesselsPositions).forEach(([vesselId, positions]: [string, Position[]]) => {
-    const randomColor: string = getHtmlColorCodeForNumber(index);
-    vesselPaths.push({
-      vesselId,
-      path: positions.map((position: Position): LatLng => {
-        return {
-          lat: position.latitude,
-          lng: position.longitude
-        };
-      }),
-      icons: [
-        {
-          icon: lineSymbol,
-          offset: '100%'
-        }
-      ],
-      geodesic: true,
-      strokeColor: randomColor,
-      strokeOpacity: 1.0,
-      strokeWeight: 2
+          if (index === allPossibleTimeFilters.value.length - 1) {
+            clearAllHistoryTimeout();
+          }
+        }, index * 300)
+      );
     });
-
-    index += 1;
-  });
-
-  return vesselPaths;
-};
-
-const filterVesselPath = (
-  vesselPathToFilter: VesselPath[],
-  vesselIdToInclude: string[]
-): VesselPath[] => {
-  console.log(
-    '\x1b[41m TONIO  filterVesselPath vesselPathToFilter=',
-    vesselPathToFilter,
-    '  vesselIdToInclude=',
-    vesselIdToInclude,
-    '\x1b'
-  );
-  return vesselPathToFilter.filter((vesselPath: VesselPath): boolean => {
-    if (vesselIdToInclude.length === 0) {
-      return true;
-    } else if (vesselIdToInclude.includes(vesselPath.vesselId)) {
-      return true;
-    }
-
-    return false;
-  });
-};
-
-const onPolylineClick = (event: any, path: VesselPath): void => {
-  console.log('TONIO onPolylineClick  event=', event, '   path=', path);
+  }
 };
 
 const onVesselIdChange = (vesselsIdSelected: string[]): void => {
-  console.log('TONIO onVesselIdChange  vesselsIdSelected=', vesselsIdSelected);
   vesselIdSelected.value = [...vesselsIdSelected];
   router.push({ query: { vesselIds: vesselsIdSelected.join(',') } });
 };
@@ -112,43 +74,36 @@ const onVesselIdChange = (vesselsIdSelected: string[]): void => {
 watch(
   [() => props.positions, () => mapRef.value?.ready],
   ([newPositions, isGoogleMapReady]) => {
-    console.log(
-      'TONIO   newVesselIdSelected=',
-      '  newPositions=',
-      newPositions,
-      ' isGoogleMapReady=',
-      isGoogleMapReady
-    );
     isLoading.value = true;
     if (newPositions && newPositions.length > 0 && isGoogleMapReady) {
       setTimeout(async () => {
-        const positionsPerVessel: PositionsPerVessel = getPositionsPerVessel(newPositions);
+        const { timeFilters, positionsPerVessel }: PositionAndTimeFilter =
+          computePositionsPerVesselAndTimeFilters(newPositions);
+        allPossibleTimeFilters.value = timeFilters;
 
         allVesselPaths.value = computeVesselPath(positionsPerVessel);
         isLoading.value = false;
       }, 100);
-      console.log('TONIO   WATCH newPositions=', newPositions);
     }
   },
   { immediate: true }
 );
 
 watch(
-  [() => allVesselPaths.value, () => vesselIdSelected.value],
-  async ([newVesselPaths, newVesselIdSelected]) => {
-    console.log(
-      'TONIO   newVesselIdSelected=',
+  [() => allVesselPaths.value, () => vesselIdSelected.value, () => timeFilter.value],
+  async ([newVesselPaths, newVesselIdSelected, newTimeFilter]) => {
+    vesselPathsFiltered.value = filterVesselPath(
+      newVesselPaths,
       newVesselIdSelected,
-      '  newVesselPaths=',
-      newVesselPaths
+      newTimeFilter
     );
-    //TODO TONIO BUG WHEN LOADING SCREEN newVesselIdSelected=['']
-    vesselPathsFiltered.value = filterVesselPath(newVesselPaths, newVesselIdSelected);
-
-    console.log('TONIO   WATCH vesselPathsFiltered.value=', vesselPathsFiltered.value);
   },
   { immediate: true }
 );
+
+onUnmounted(() => {
+  clearAllHistoryTimeout();
+});
 </script>
 
 <template>
@@ -158,11 +113,17 @@ watch(
     </div>
 
     <div :class="{ 'h-0 w-0 opacity-0': isLoading }" class="flex flex-col gap-4">
-      <MapVesselFilter
-        :vesselsPath="allVesselPaths"
-        :vesselIdToPreSelect="vesselIdSelected"
-        @vesselSelectionChanged="onVesselIdChange"
-      />
+      <div class="flex flex-col justify-between gap-4 md:flex-row">
+        <MapVesselFilter
+          :vesselsPath="allVesselPaths"
+          :vesselIdToPreSelect="vesselIdSelected"
+          @vesselSelectionChanged="onVesselIdChange"
+        />
+        <AppButton :style="ButtonStyle.yellowBg" @click="playPauseHistory">
+          <IconPlay class="h-10 w-full" v-if="historyTimeoutIds.length === 0" />
+          <IconPause class="h-10 w-full" v-if="historyTimeoutIds.length > 0" />
+        </AppButton>
+      </div>
       <GoogleMap
         ref="mapRef"
         :apiKey="apiKey"
@@ -170,11 +131,7 @@ watch(
         :center="center"
         :zoom="2"
       >
-        <Polyline
-          v-for="path in vesselPathsFiltered"
-          :options="path"
-          @click="(event) => onPolylineClick(event, path)"
-        />
+        <Polyline v-for="path in vesselPathsFiltered" :options="path" />
       </GoogleMap>
     </div>
   </div>

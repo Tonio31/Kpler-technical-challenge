@@ -4,6 +4,8 @@
 
 1. Activate virtual environment
 
+```virtualenv -p python3 .venv```
+
 ```. .venv/bin/activate```
 
 2. Install requirements

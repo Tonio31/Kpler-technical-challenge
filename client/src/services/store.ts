@@ -16,14 +16,7 @@ export const addPosition = (position: Position): Ref<VesselStore> => {
 };
 
 export const setPositions = (positions: Position[]): Ref<VesselStore> => {
-  console.log(
-    'TONIO 0 setPositions positions=',
-    positions,
-    '   vesselStore.value.positions=',
-    vesselStore.value.positions
-  );
   vesselStore.value.positions.splice(0);
   vesselStore.value.positions.push(...positions);
-  console.log('TONIO 10 setPositions  vesselStore.value.positions=', vesselStore.value.positions);
   return vesselStore;
 };
