@@ -40,4 +40,23 @@ export const sortPositionsByTimestamp = (positionsToSort: Position[]): Position[
   });
 };
 
-// export const waitForGoogleMapToBeLoaded;
+export const setIntervalX = (
+  callback: Function,
+  delayMs: number,
+  repetitions: number
+): ReturnType<typeof setInterval> => {
+  let x: number = 0;
+  const intervalID: ReturnType<typeof setInterval> = setInterval(
+    (args: any) => {
+      callback(args);
+
+      if (++x === repetitions) {
+        clearInterval(intervalID);
+      }
+    },
+    delayMs,
+    'something'
+  );
+
+  return intervalID;
+};

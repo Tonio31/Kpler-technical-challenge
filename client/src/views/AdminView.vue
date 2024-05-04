@@ -57,16 +57,12 @@ watch(
   async (newPositions) => {
     numPositions.value = newPositions.length;
     numVessel.value = findVesselNumber(newPositions);
-
-    console.log('TONIO   vesselStore=', vesselStore);
-    console.log('\x1b[41m TONIO watch vesselStore  newPositions=', newPositions, '\x1b');
   },
   { immediate: true }
 );
 
 const clearAllPositions = async () => {
   errorMessage.value = '';
-  console.log('TONIO  clearAllPositions =');
   isLoading.value = true;
 
   try {
@@ -180,19 +176,16 @@ const convertCvsDataIntoPositions = async (
 
 const onFileParsed = (content: any[]): void => {
   isLoading.value = true;
-  console.log('\x1b[41m TONIO onFileParsed  content=', content, '\x1b');
   setTimeout(async () => {
     const results: ConvertPositionsReturnValue = await convertCvsDataIntoPositions(content);
     positionsToImport.value = results.positions;
     errorsParsingCSV.value = results.errors;
 
-    console.log('TONIO positionsToImport onFileParsed results=', results);
     isLoading.value = false;
   }, 100);
 };
 
 const saveCsvInServer = async (): Promise<void> => {
-  console.log('\x1b[41m TONIO saveCsvInServer  positions=', positionsToImport.value, '\x1b');
   isLoading.value = true;
   setTimeout(async () => {
     if (positionsToImport.value) {

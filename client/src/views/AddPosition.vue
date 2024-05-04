@@ -92,7 +92,6 @@ const addPositionFromForm = async (event: Event): Promise<void> => {
   isFormSubmitted.value = true;
   if (isFormValid.value) {
     isLoading.value = true;
-    console.log('\x1b[41m TONIO FORM IS VALID savePosition \x1b');
     const positionToSave: Position = {
       vesselId: +vesselId.value,
       latitude: +latitude.value,
@@ -105,7 +104,6 @@ const addPositionFromForm = async (event: Event): Promise<void> => {
 
       router.push('/');
     } catch (error) {
-      console.log('TONIO ERROR addPositionFromForm error=', error);
       if (error instanceof Error) {
         errorMessage.value = error.message;
       } else if (typeof error === 'string') {
@@ -115,11 +113,7 @@ const addPositionFromForm = async (event: Event): Promise<void> => {
       }
     }
     isLoading.value = false;
-    console.log('TONIO  savePosition positionToSave=', positionToSave);
-  } else {
-    console.log('\x1b[41m TONIO FORM IS NOT VALID savePosition \x1b');
   }
-  console.log('TONIO  savePosition formRef=', formRef, '   event=', event);
 };
 </script>
 

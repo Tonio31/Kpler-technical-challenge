@@ -21,7 +21,6 @@ withDefaults(
 const inputRef = ref<HTMLInputElement | null>(null);
 
 const parseFile = (file: File): void => {
-  console.log('TONIO parseFile  file=', file, '   inputRef=', inputRef);
   Papa.parse(file, {
     header: true,
     skipEmptyLines: true,
@@ -29,21 +28,18 @@ const parseFile = (file: File): void => {
       return header.trim();
     },
     complete: function (results: any) {
-      console.log('TONIO   results=', results);
       emit('fileParsed', results.data);
     }.bind(this)
   });
 };
 
 const simulateInputClick = (): void => {
-  console.log('TONIO simulateInputClick    inputRef=', inputRef, '   value=', inputRef.value);
   if (inputRef.value) {
     inputRef.value.click();
   }
 };
 
 const handleFileUpload = (event: Event) => {
-  console.log('TONIO  handleFileUpload event=', event, '   inputRef=', inputRef);
   const target: HTMLInputElement = event.target as HTMLInputElement;
   if (target.files) {
     const file: File = target.files[0];
