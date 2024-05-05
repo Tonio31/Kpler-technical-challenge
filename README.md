@@ -68,7 +68,7 @@ Node 18
 ## Limitations of this app / Things to improve
 
 ### Server
-The server is the most basic you can have for the requirements, I had to learn Python / Flask for this project so I'm sure there are many things that can be greatly improved.
+The server is the most basic you can have for the requirements, I had to learn Python / Flask for this project, so I'm sure there are many things that can be greatly improved.
 
 For instance, the validation on the server side is quite basic and should be improved. I did the validation of the position (valid latitude / longitude) on the client side for convenience because I have more experience in Front end but it should be done in the back end (maybe in both for basic validation)
 
@@ -77,6 +77,8 @@ There is no security in place in case anyone tries to attack the server
 Error Management should be better: I raise error using `abort` directly, I should use a centralise Error handling
 
 Logs: I put DEBUG logs everywhere but in a real application, we would differentiate "normal" logs from "Debug" logs
+
+Docker: for a production server, I would create a docker container to run the server.
 
 #### Unit test
 I did not do any unit test for lack of time but there should be some
