@@ -5,15 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4b7bb920-8f30-40cb-9d65-30bd1bc69722" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../client/src/components/icons/IconPause.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../client/src/components/icons/IconPlay.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../client/src/services/vesselsHelper.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/components/containers/WorldMap.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/containers/WorldMap.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/models/vessel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/models/vessel.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/services/helpers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/services/helpers.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/atomic/AppPaginator.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/icons/IconChevronLeft.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/icons/IconChevronRight.vue" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
